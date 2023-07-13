@@ -38,7 +38,7 @@ const playSong = (req, res) => {
     return song.title.toLowerCase().includes(req.query.title.toLowerCase());
   });
 
-  if (findSong.length === 0) throw new AppError('No Song Found', 404);
+  if (findSong.length === 0) throw new AppError('Song not found', 404);
 
   res.json({
     status: 'success',
