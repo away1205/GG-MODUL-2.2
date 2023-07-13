@@ -1,5 +1,3 @@
-Sure! Here's a documentation for the provided code:
-
 ## Spotify Playlist Server
 
 This code represents a basic Spotify Playlist Server implemented using Node.js and Express.js. It provides endpoints to manage a playlist, including adding songs, playing songs, and retrieving the list of songs. The server listens on a specified port, either 3000 or the environment variable `PORT`.
