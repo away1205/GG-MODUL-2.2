@@ -1,256 +1,256 @@
-## Spotify Playlist Server
+# Spotify Clone Server Documentation
 
-The Spotify Playlist Server is a Node.js application that allows users to manage a playlist by adding songs, playing songs, and retrieving the list of songs. The server is built using Express.js framework and follows a RESTful API design.
+This documentation provides a comprehensive overview of the code structure, functionality, and components of the Spotify clone server. It covers the purpose of each file, the available API endpoints, the data flow between different components, and the underlying logic. Use this documentation as a reference to understand and interact with the server.
 
-### Prerequisites
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+3. [Code Structure](#code-structure)
+    - [App Folder](#app-folder)
+    - [Controllers Folder](#controllers-folder)
+    - [Entities Folder](#entities-folder)
+    - [Routes Folder](#routes-folder)
+    - [Usecases Folder](#usecases-folder)
+4. [API Endpoints](#api-endpoints)
+5. [Controllers](#controllers)
+6. [Entities](#entities)
+7. [Routes](#routes)
+8. [Usecases](#usecases)
 
-Before running the server, ensure that you have Node.js and npm (Node Package Manager) installed on your machine.
+## Introduction <a name="introduction"></a>
 
-### Installation
+The Spotify clone server is a backend implementation that mimics some of the functionality of the Spotify service. It provides API endpoints for managing songs in a playlist-like structure. The server is built using Node.js and utilizes the Express.js framework for handling HTTP requests. The codebase follows a modular architecture to enhance code organization, maintainability, and reusability.
 
-1. Clone the repository or download the source code.
+## Installation <a name="installation"></a>
 
-2. Open a terminal and navigate to the project directory.
+To set up and run the Spotify clone server, follow these steps:
 
-3. Install the required dependencies by running the following command:
+1. Clone the repository from GitHub:
    ```
-   npm install
-   ```
-
-### `app.js`
-
-The `app.js` file serves as the entry point for the Spotify Playlist Server. It sets up the Express.js server, defines the endpoints, and handles error scenarios.
-
-#### Dependencies
-
-- express: A fast and minimalist web framework for Node.js.
-
-#### Installation
-
-No additional installation steps are required for the `app.js` file. The necessary dependencies are installed during the overall project installation.
-
-#### Usage
-
-1. Start the server by running the following command:
-   ```
-   node app.js
+   $ git clone <repository-url>
    ```
 
-2. The server will start running and listening on the specified port (either 3000 or the environment variable `PORT`).
+2. Install the required dependencies by navigating to the project directory and running the following command:
+   ```
+   $ npm install
+   ```
 
-3. Use an HTTP client (such as Postman or cURL) to interact with the server's endpoints.
+3. Start the server by executing the following command:
+   ```
+   $ npm start
+   ```
 
-#### Endpoints
+By default, the server runs on port 3000. You can modify the port number in the `app/rest.js` file.
 
-The Spotify Playlist Server provides the following endpoints:
+## Code Structure <a name="code-structure"></a>
 
-##### GET `/`
+The Spotify clone server codebase follows a modular structure, organized into several folders:
 
-- Description: Retrieves all songs in the playlist.
-- Method: GET
-- URL: `/`
-- Response Format: JSON
-- Response Body Example:
-  ```json
-  {
-    "message": "success",
-    "data": [
-      {
-        "id": "4xaTadWJLjJt9QwDygAXGK",
-        "title": "Song 1",
-        "artist": "Artist 1",
-        "url": "https://spotify.com/song1"
-      },
-      {
-        "id": "3m0Z7vY7UuoDtVzgdMaW0g",
-        "title": "Song 2",
-        "artist": "Artist 2",
-        "url": "https://spotify.com/song2"
-      }
-    ]
-  }
-  ```
+### App Folder <a name="app-folder"></a>
 
-##### GET `/play`
+The `app` folder contains the main file responsible for server configuration and startup:
 
-- Description: Plays a song from the playlist.
-- Method: GET
-- URL: `/play`
-- Response Format: JSON
-- Response Body Example:
-  ```json
-  {
-    "status": "success",
-    "data": [
-      {
-        "id": "4xaTadWJLjJt9QwDygAXGK",
-        "title": "Song 1",
-        "artist": "Artist 1",
-        "url": "https://spotify.com/song1"
-      }
-    ]
-  }
-  ```
+- `rest.js`: This file initializes the Express.js server, sets up middleware, defines routes, and starts the server on the specified port. It uses the `routesExpress` module to handle the defined routes.
 
-##### POST `/add`
+### Controllers Folder <a name="controllers-folder"></a>
 
-- Description: Adds a song to the playlist.
-- Method: POST
-- URL: `/add`
-- Request Format: JSON
-- Request Body Example:
-  ```json
-  {
-    "title": "New Song",
-    "artist": "Artist 3",
-    "url": "https://spotify.com/newsong"
-  }
-  ```
-- Response Format: JSON
-- Response Body Example:
-  ```json
-  {
-    "status": "success",
-    "data": {
-      "id": "yYnzEASoUGbEDCY11CvGx",
-      "title": "New Song",
-      "artist": "Artist 3",
-      "url": "https://spotify.com/newsong"
+The `controllers` folder contains files responsible for handling specific API endpoints and processing incoming requests:
+
+- `AppError.js`: This file defines the `AppError` class, which extends the JavaScript `Error` class and is used for custom error handling. It takes a message and a status code as parameters.
+- `handler.js`: This file exports several functions that act as request handlers for different API endpoints. These handlers receive incoming requests, process data, and send the appropriate responses. The available functions include:
+  - `getAllSongs`: Retrieves all songs from the playlist. It supports an optional query parameter, `title`, to filter songs based on the title.
+  - `getSongsByMostPlayed`: Retrieves songs from the playlist, sorted by the number of times they have been played.
+  - `addNewSong`: Adds a new song to the playlist.
+  - `playSongByTitle`: Plays a song from the playlist based on the provided title.
+
+### Entities Folder <a name="entities-folder"></a>
+
+The `entities` folder contains files related to data models and operations on the playlist:
+
+- `songModel.js`: This file defines the `Song` class, which represents a song in the playlist. Each song has properties such as `id`, `title`, `artist`, `url`, and `playCount`. Additionally, the file includes functions to perform operations on the playlist:
+  - `addNewSong`: Adds a new song to the playlist.
+  - `getAllSongs`: Retrieves all songs from the playlist.
+  - `getSongsByTitle`: Retrieves songs from the playlist based on a provided query.
+  - `getSongsByMostPlayed`: Retrieves songs from the playlist, sorted by the number of times they have been played.
+  - `playSongByTitle`: Plays a song from the playlist based on the provided title.
+
+### Routes Folder <a name="routes-folder"></a>
+
+The `routes` folder contains files responsible for defining the API endpoints and associating them with the appropriate route handlers:
+
+- `routesExpress.js`: This file defines the Express router and configures the available routes. It imports the route handlers from the `controllers/handler.js` file and associates them with specific HTTP methods and URL paths.
+
+### Usecases Folder <a name="usecases-folder"></a>
+
+The `usecases` folder contains files that provide service functions responsible for interacting with the entities and performing specific operations:
+
+- `service.js`: This file exports several service functions that abstract the underlying logic of the server's functionality. These functions utilize the operations defined in the `entities/songModel.js` file. The available service functions include:
+  - `getAllSongsService`: Retrieves all songs from the playlist.
+  - `getSongsByMostPlayedService`: Retrieves songs from the playlist, sorted by the number of times they have been played.
+  - `getSongsByTitleService`: Retrieves songs from the playlist based on a provided title.
+  - `addSongsService`: Adds a new song to the playlist.
+  - `playSongByTitleService`: Plays a song from the playlist based on the provided title.
+
+## API Endpoints <a name="api-endpoints"></a>
+
+The Spotify clone server provides the following API endpoints:
+
+### GET `/` - Retrieve all songs
+
+Retrieves all the songs in the playlist. It supports an optional query parameter, `title`, to filter songs based on the title.
+
+**Example Request:**
+```
+GET /?title=summer
+```
+
+**Example Response:**
+```
+Status: 200 OK
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "1",
+      "title": "Cruel Summer",
+      "artist": "Taylor Swift",
+      "url": "https://open.spotify.com/intl-id/track/1BxfuPKGuaTgP7aM0Bbdwr",
+      "playCount": 0
     }
-  }
-  ```
+  ]
+}
+```
 
-#### Error Handling
+### GET `/mostplayed` - Retrieve songs by most played
 
-- If a route is not found, the server responds with a 404 status code and a JSON error message:
-  ```json
-  {
-    "status": "Failed!",
-    "message": "Page Not Found!"
-  }
-  ```
+Retrieves songs from the playlist, sorted by the number of times they have been played.
 
-- If an error occurs in the server, the error handling middleware captures it and sends an appropriate status code and error message:
-  ```json
-  {
-    "status": 500,
-    "message": "Something Went Wrong!"
-  }
-  ```
+**Example Request:**
+```
+GET /mostplayed
+```
+
+**Example Response:**
+```
+Status: 200 OK
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "1",
+      "title": "Cruel Summer",
+      "artist": "Taylor Swift",
+      "url": "https://open.spotify.com/intl-id/track/1BxfuPKGuaTgP7aM0Bbdwr",
+      "playCount": 0
+    }
+  ]
+}
+```
+
+### GET `/playsong` - Play a song by title
+
+Plays a song from the playlist based on the provided title.
+
+**Query Parameters:**
+- `title`: The title of the song to be played.
+
+**Example Request
+
+:**
+```
+GET /playsong?title=cruel%20summer
+```
+
+**Example Response:**
+```
+Status: 200 OK
+{
+  "status": "success",
+  "message": "Cruel Summer by Taylor Swift is playing"
+}
+```
+
+### POST `/addsong` - Add a new song
+
+Adds a new song to the playlist.
+
+**Request Body:**
+- `title`: The title of the song.
+- `artist`: The artist of the song.
+- `url`: The URL of the song.
+
+**Example Request:**
+```
+POST /addsong
+Content-Type: application/json
+
+{
+  "title": "New Song",
+  "artist": "New Artist",
+  "url": "https://example.com/new-song"
+}
+```
+
+**Example Response:**
+```
+Status: 201 Created
+{
+  "status": "success",
+  "message": "New Song is now on your playlist"
+}
+```
+
+## Controllers <a name="controllers"></a>
+
+The controllers handle the logic for each API endpoint. They receive the incoming requests, process the data, and send the appropriate responses.
+
+### `AppError` (controllers/AppError.js)
+
+The `AppError` class represents an error object used for custom error handling. It extends the JavaScript `Error` class and includes additional properties such as the error message and status code.
 
 ### `handler.js`
 
-The `handler.js` file contains the handler functions responsible for processing requests related to managing the Spotify playlist.
+This file contains the request handlers for each API endpoint. It exports the following functions:
 
-#### Dependencies
+- `getAllSongs(req, res)`: Retrieves all songs in the playlist. Optionally filters the songs by title.
+- `getSongsByMostPlayed(req, res)`: Retrieves songs from the playlist, sorted by the number of times they have been played.
+- `addNewSong(req, res)`: Adds a new song to the playlist.
+- `playSongByTitle(req, res)`: Plays a song from the playlist based on the provided title.
 
-- nanoid: A small utility library to generate unique IDs.
-- AppError: A custom module for defining and handling application errors.
+## Entities <a name="entities"></a>
 
-#### Installation
+The entities represent the data models and related operations used in the Spotify clone server.
 
-No additional installation steps are required for the `handler.js` file. The necessary dependencies are installed during the overall project installation.
+### `songModel.js`
 
-#### Usage
+The `Song` class represents a song object in the playlist. It includes properties such as `id`, `title`, `artist`, `url`, and `playCount`. Additionally, the file includes functions to perform operations on the playlist:
 
-The functions in `handler.js` are imported and used in the `app.js` file to handle specific endpoints.
+- `addNewSong(title, artist, url)`: Adds a new song to the playlist.
+- `getAllSongs()`: Retrieves all songs in the playlist.
+- `getSongsByTitle(query)`: Retrieves songs from the playlist based on the provided query.
+- `getSongsByMostPlayed()`: Retrieves songs from the playlist, sorted by the number of times they have been played.
+- `playSongByTitle(query)`: Plays a song from the playlist based on the provided title.
 
-#### Functions
+## Routes <a name="routes"></a>
 
-##### `getAllSongs`
+The routes define the URL paths and route handlers for each API endpoint.
 
-- Description: Retrieves all songs in the playlist.
-- Parameters: None
-- Returns: JSON response with the list of songs
-- Response Format: JSON
-- Response Body Example:
-  ```json
-  {
-    "message": "success",
-    "data": [
-      {
-        "id": "4xaTadWJLjJt9QwDygAXGK",
-        "title": "Song 1",
-        "artist": "Artist 1",
-        "url": "https://spotify.com/song1"
-      },
-      {
-        "id": "3m0Z7vY7UuoDtVzgdMaW0g",
-        "title": "Song 2",
-        "artist": "Artist 2",
-        "url": "https://spotify.com/song2"
-      }
-    ]
-  }
-  ```
+### `routesExpress.js`
 
-##### `addSongs`
+This file defines the Express router and associates the API endpoints with their corresponding route handlers. It imports the route handlers from the `controllers/handler.js` file and associates them with specific HTTP methods and URL paths.
 
-- Description: Adds a song to the playlist.
-- Parameters:
-  - `req` (object): The request object containing the song details in the request body.
-  - `res` (object): The response object to send the result.
-- Returns: JSON response with the added song details
-- Request Format: JSON
-- Request Body Example:
-  ```json
-  {
-    "title": "New Song",
-    "artist": "Artist 3",
-    "url": "https://spotify.com/newsong"
-  }
-  ```
-- Response Format: JSON
-- Response Body Example:
-  ```json
-  {
-    "status": "success",
-    "data": {
-      "id": "yYnzEASoUGbEDCY11CvGx",
-      "title": "New Song",
-      "artist": "Artist 3",
-      "url": "https://spotify.com/newsong"
-    }
-  }
-  ```
+## Usecases <a name="usecases"></a>
 
-##### `playSong`
+The usecases folder contains service functions that interact with the entities to perform specific operations.
 
-- Description: Plays a song from the playlist based on the provided title.
-- Parameters:
-  - `req` (object): The request object containing the query parameter `title`.
-  - `res` (object): The response object to send the result.
-- Returns: JSON response with the matching song details
-- Response Format: JSON
-- Response Body Example:
-  ```json
-  {
-    "status": "success",
-    "data": [
-      {
-        "id": "4xaTadWJLjJt9QwDygAXGK",
-        "title": "Song 1",
-        "artist": "Artist 1",
-        "url": "https://spotify.com/song1"
-      }
-    ]
-  }
-  ```
+### `service.js`
 
-#### Error Handling
+The `service.js` file exports the following service functions:
 
-- In the `addSongs` function, input validation is performed to check if the required fields (`title`, `artist`, and `url`) are present. If any of these fields are missing, it throws an `AppError` with a status code of 400.
+- `getAllSongsService()`: Retrieves all songs in the playlist using the `getAllSongs()` function from the `entities/songModel.js` file.
+- `getSongsByMostPlayedService()`: Retrieves songs from the playlist, sorted by the number of times they have been played using the `getSongsByMostPlayed()` function from the `entities/songModel.js` file.
+- `getSongsByTitleService(title)`: Retrieves songs from the playlist based on the provided title using the `getSongsByTitle(title)` function from the `entities/songModel.js` file.
+- `addSongsService(title, artist, url)`: Adds a new song to the playlist using the `addNewSong(title, artist, url)` function from the `entities/songModel.js` file.
+- `playSongByTitleService(query)`: Plays a song from the playlist based on the provided title using the `playSongByTitle(query)` function from the `entities/songModel.js` file.
 
-- In the `playSong` function, if no song is found in the playlist for the provided title, it throws an `AppError` with a status code of 404.
-
-#### Exporting Functions
-
-The handler functions are exported at the end of the file for use in other modules:
-
-```javascript
-module.exports = { getAllSongs, addSongs, playSong };
-```
-
-### Conclusion
-
-The Spotify Playlist Server provides a simple API to manage a playlist. The `app.js` file sets up the server, defines the endpoints, and handles errors, while the `handler.js` file contains the implementation of the handler functions for each endpoint.
+---
