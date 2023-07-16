@@ -1,6 +1,6 @@
 # Spotify Clone Server Documentation
 
-This documentation provides a comprehensive overview of the code structure, functionality, and components of the Spotify clone server. It covers the purpose of each file, the available API endpoints, the data flow between different components, and the underlying logic. Use this documentation as a reference to understand and interact with the server.
+This documentation provides a comprehensive overview of the code structure, functionality, and components of the Spotify clone server. It covers the purpose of each file, the available API endpoints, the data flow between different components, and the underlying logic.
 
 ## Table of Contents
 1. [Introduction](#introduction)
