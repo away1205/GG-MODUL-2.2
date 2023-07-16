@@ -27,7 +27,7 @@ To set up and run the Spotify clone server, follow these steps:
 
 1. Clone the repository from GitHub:
    ```
-   $ git clone <repository-url>
+   $ git clone https://github.com/away1205/GG-MODUL-2.2.git
    ```
 
 2. Install the required dependencies by navigating to the project directory and running the following command:
@@ -37,7 +37,7 @@ To set up and run the Spotify clone server, follow these steps:
 
 3. Start the server by executing the following command:
    ```
-   $ npm start
+   $ npm run start rest
    ```
 
 By default, the server runs on port 3000. You can modify the port number in the `app/rest.js` file.
