@@ -3,8 +3,8 @@ const {
   getSongsByMostPlayed,
   addNewSong,
   playSongByTitle,
-} = require('../entity/songModel');
-const AppError = require('./AppError');
+  getSongsByTitle,
+} = require('../entities/songModel');
 
 const getAllSongsService = () => {
   return getAllSongs();
@@ -14,10 +14,14 @@ const getSongsByMostPlayedService = () => {
   return getSongsByMostPlayed();
 };
 
+const getSongsByTitleService = (title) => {
+  return getSongsByTitle(title);
+};
+
 const addSongsService = (title, artist, url) => {
-  if (!title) throw new AppError('What is the title?', 400);
-  if (!artist) throw new AppError('Who is the artist?', 400);
-  if (!url) throw new AppError('What is the URL?', 400);
+  if (!title) throw new Error('What is the title?');
+  if (!artist) throw new Error('Who is the artist?');
+  if (!url) throw new Error('What is the URL?');
 
   addNewSong(title, artist, url);
   return `${title} is now on your playlist`;
@@ -25,10 +29,7 @@ const addSongsService = (title, artist, url) => {
 
 const playSongByTitleService = (query) => {
   const playedSong = playSongByTitle(query);
-
-  if (!playedSong[0]) throw new AppError('Song not found', 404);
-
-  return `${playedSong[0].title} by ${playedSong[0].artist} is playing`;
+  return playedSong;
 };
 
 module.exports = {
@@ -36,4 +37,5 @@ module.exports = {
   getSongsByMostPlayedService,
   playSongByTitleService,
   addSongsService,
+  getSongsByTitleService,
 };

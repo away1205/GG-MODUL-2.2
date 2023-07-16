@@ -1,22 +1,12 @@
 const express = require('express');
 const app = express();
 const PORT = 3000 || process.env.PORT;
-const { getAllSongs, addSongs, playSong } = require('./src/handler');
+const appRoutes = require('./src/routes/routesExpress');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  getAllSongs();
-});
-
-app.get('/play', (req, res) => {
-  playSong;
-});
-
-app.post('/add', (req, res) => {
-  addSongs();
-});
+app.use('/', appRoutes);
 
 app.use((req, res) => {
   res

@@ -21,6 +21,12 @@ function getAllSongs() {
   return songs;
 }
 
+function getSongsByTitle(query) {
+  return songs.filter((song) => {
+    return song.title.toLowerCase().includes(query.toLowerCase());
+  });
+}
+
 function getSongsByMostPlayed() {
   return songs.sort((a, b) => {
     if (a.playCount > b.playCount) {
@@ -44,4 +50,5 @@ module.exports = {
   getAllSongs,
   playSongByTitle,
   getSongsByMostPlayed,
+  getSongsByTitle,
 };
