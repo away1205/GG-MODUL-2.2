@@ -6,14 +6,19 @@ const { getAllSongs, addSongs, playSong } = require('./src/handler');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', getAllSongs);
+app.get('/', (req, res) => {
+  getAllSongs();
+});
 
-app.get('/play', playSong);
+app.get('/play', (req, res) => {
+  playSong;
+});
 
-app.post('/add', addSongs);
+app.post('/add', (req, res) => {
+  addSongs();
+});
 
 app.use((req, res) => {
-  get;
   res
     .json({
       status: 'Failed!',
