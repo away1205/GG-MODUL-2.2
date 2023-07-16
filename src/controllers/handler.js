@@ -25,7 +25,7 @@ const getAllSongs = (req, res) => {
     const allSong = getAllSongsService();
 
     if (allSong.length === 0)
-      throw AppError('There is no song in your playlist', 404);
+      throw new AppError('There is no song in your playlist', 404);
 
     res
       .json({
@@ -40,7 +40,7 @@ const getSongsByMostPlayed = (req, res) => {
   const allSong = getSongsByMostPlayedService();
 
   if (allSong.length === 0)
-    throw AppError('There is no song in your playlist', 404);
+    throw new AppError('There is no song in your playlist', 404);
 
   res
     .json({
@@ -53,8 +53,9 @@ const getSongsByMostPlayed = (req, res) => {
 const addNewSong = (req, res) => {
   const { title, artist, url } = req.body;
 
-  if (!title || !artist || !url)
-    throw AppError('There is something missing, Please check your input', 400);
+  if (!title) throw new AppError('What is the title?', 400);
+  if (!artist) throw new AppError('Who is the artist?', 400);
+  if (!url) throw new AppError('What is the URL?', 400);
 
   const message = addSongsService(title, artist, url);
 
